@@ -1,3 +1,5 @@
+const API_BASE = "https://tutorai-backend-a4la.onrender.com";
+
 async function askTutorAI() {
   const question = document.getElementById("chat-input").value;
   const chatBox = document.getElementById("chat-messages");
@@ -20,7 +22,7 @@ async function askTutorAI() {
   document.getElementById("chat-input").value = "";
 
   try {
-    const response = await fetch("https://tutorai-backend-a4la.onrender.com/api/ask", {
+    const response = await fetch(`${API_BASE}/api/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question }),
