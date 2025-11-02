@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TutorAI — AI-Driven Smart Learning Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">TutorAI</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#ai-tutor">AI Tutor</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li id="auth-buttons">
+          <button id="login-btn">Login</button>
+          <button id="logout-btn" style="display:none;">Logout</button>
+        </li>
+      </ul>
+      <button id="theme-toggle" class="theme-toggle">☀️</button>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <h1>Personalized Learning Powered by AI</h1>
+      <p>Experience the future of education with intelligent tutoring tailored just for you.</p>
+      <button class="cta-button">Get Started</button>
+    </section>
+
+    <section id="ai-tutor" class="ai-tutor">
+      <h2>AI Tutor Chat</h2>
+      <div class="chat-container">
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input-container">
+          <input type="text" id="chat-input" placeholder="Ask me anything..." />
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TutorAI</p>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
