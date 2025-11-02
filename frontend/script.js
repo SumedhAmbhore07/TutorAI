@@ -20,7 +20,7 @@ async function askTutorAI() {
   document.getElementById("chat-input").value = "";
 
   try {
-    const response = await fetch("https://tutorai-backend-a4la.onrender.com", {
+    const response = await fetch("https://tutorai-backend-a4la.onrender.com/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question }),
