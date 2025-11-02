@@ -3,7 +3,7 @@
 // Import Firebase SDK modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -27,6 +27,15 @@ async function loginWithGoogle() {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
     console.log('User logged in:', user.displayName);
+
+    // Save user info to Firestore
+    await setDoc(doc(db, 'users', user.uid), {
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      lastLogin: new Date()
+    });
+
     return user;
   } catch (error) {
     console.error('Login error:', error);

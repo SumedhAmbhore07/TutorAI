@@ -1,3 +1,0 @@
-- [x] Update frontend/index.html with semantic HTML structure including navbar, hero, AI Tutor chat, footer, and theme toggle.
-- [x] Update frontend/style.css with mobile-first responsive styles, light/dark themes.
-- [x] Update frontend/script.js with theme toggle functionality and basic chat interface logic.

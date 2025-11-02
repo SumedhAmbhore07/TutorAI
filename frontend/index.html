@@ -16,6 +16,10 @@
         <li><a href="#ai-tutor">AI Tutor</a></li>
         <li><a href="#profile">Profile</a></li>
         <li id="auth-buttons">
+          <div id="user-info" style="display:none;">
+            <img id="user-photo" src="" alt="User Photo" style="width:30px; height:30px; border-radius:50%; margin-right:10px;">
+            <span id="user-name"></span>
+          </div>
           <button id="login-btn">Login</button>
           <button id="logout-btn" style="display:none;">Logout</button>
         </li>
@@ -33,12 +37,12 @@
     </section>
 
     <section id="ai-tutor" class="ai-tutor">
-      <h2>AI Tutor Chat</h2>
-      <div class="chat-container">
+      <div class="ai-chat-container">
+        <h2 class="chat-title">TutorAI Assistant 🤖</h2>
         <div id="chat-messages" class="chat-messages"></div>
         <div class="chat-input-container">
-          <input type="text" id="chat-input" placeholder="Ask me anything..." />
-          <button id="send-button">Send</button>
+          <input type="text" id="chat-input" placeholder="Ask TutorAI anything..." />
+          <button id="send-button" class="send-button">Send</button>
         </div>
       </div>
     </section>
