@@ -3,7 +3,7 @@
 // Import Firebase SDK modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -28,13 +28,13 @@ async function loginWithGoogle() {
     const user = result.user;
     console.log('User logged in:', user.displayName);
 
-    // Save user info to Firestore
+    // Save user info to Firestore (without stream for Google login)
     await setDoc(doc(db, 'users', user.uid), {
       name: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
       lastLogin: new Date()
-    });
+    }, { merge: true });
 
     return user;
   } catch (error) {
@@ -71,5 +71,33 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Function to get user data from Firestore
+async function getUserData(userId) {
+  try {
+    const userDoc = await getDoc(doc(db, 'users', userId));
+    if (userDoc.exists()) {
+      return userDoc.data();
+    } else {
+      console.log('No user data found');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error getting user data:', error);
+    // Return null instead of throwing to allow fallback
+    return null;
+  }
+}
+
+// Function to save user data to Firestore
+async function saveUserData(userId, data) {
+  try {
+    await setDoc(doc(db, 'users', userId), data, { merge: true });
+    console.log('User data saved');
+  } catch (error) {
+    console.error('Error saving user data:', error);
+    throw error;
+  }
+}
+
 // Export functions for use in script.js
-export { loginWithGoogle, logoutUser, auth, db };
+export { loginWithGoogle, logoutUser, auth, db, getUserData, saveUserData };
