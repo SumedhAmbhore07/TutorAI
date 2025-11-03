@@ -4,12 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TutorAI — AI-Driven Smart Learning Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="login">Login</button>
+        <button class="tab-btn" data-tab="register">Register</button>
+      </div>
+      <div id="login-form" class="auth-form active">
+        <h2>Welcome Back</h2>
+        <form id="login-form-element">
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="login-email" placeholder="Email" required>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="login-password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="auth-btn">Login</button>
+        </form>
+        <div class="divider">or</div>
+        <button id="google-login" class="google-btn">
+          <i class="fab fa-google"></i> Sign in with Google
+        </button>
+      </div>
+      <div id="register-form" class="auth-form">
+        <h2>Join TutorAI</h2>
+        <form id="register-form-element">
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="register-name" placeholder="Full Name" required>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="register-email" placeholder="Email" required>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="register-password" placeholder="Password" required>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-graduation-cap"></i>
+            <select id="register-stream" required>
+              <option value="">Select Your Stream</option>
+              <option value="computer-science">Computer Science</option>
+              <option value="mathematics">Mathematics</option>
+              <option value="physics">Physics</option>
+              <option value="chemistry">Chemistry</option>
+              <option value="biology">Biology</option>
+              <option value="english">English</option>
+              <option value="history">History</option>
+            </select>
+          </div>
+          <button type="submit" class="auth-btn">Register</button>
+        </form>
+        <div class="divider">or</div>
+        <button id="google-register" class="google-btn">
+          <i class="fab fa-google"></i> Sign up with Google
+        </button>
+      </div>
+    </div>
+  </div>
+
   <header>
     <nav class="navbar">
-      <div class="logo">TutorAI</div>
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        TutorAI
+      </div>
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#courses">Courses</a></li>
@@ -17,39 +85,96 @@
         <li><a href="#profile">Profile</a></li>
         <li id="auth-buttons">
           <div id="user-info" style="display:none;">
-            <img id="user-photo" src="" alt="User Photo" style="width:30px; height:30px; border-radius:50%; margin-right:10px;">
+            <img id="user-photo" src="" alt="User Photo">
             <span id="user-name"></span>
           </div>
-          <button id="login-btn">Login</button>
-          <button id="logout-btn" style="display:none;">Logout</button>
+          <button id="login-btn" class="nav-btn">Login</button>
+          <button id="logout-btn" class="nav-btn" style="display:none;">Logout</button>
         </li>
       </ul>
-      <button id="theme-toggle" class="theme-toggle">☀️</button>
-      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <button id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-sun"></i>
+      </button>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
     </nav>
   </header>
 
   <main>
     <section id="home" class="hero">
-      <h1>Personalized Learning Powered by AI</h1>
-      <p>Experience the future of education with intelligent tutoring tailored just for you.</p>
-      <button class="cta-button">Get Started</button>
+      <div class="hero-content">
+        <h1 class="animate-fade-in">Personalized Learning Powered by AI</h1>
+        <p class="animate-fade-in">Experience the future of education with intelligent tutoring tailored just for you.</p>
+        <button class="cta-button animate-bounce">Get Started</button>
+      </div>
+      <div class="hero-image">
+        <i class="fas fa-robot"></i>
+      </div>
+    </section>
+
+    <section id="courses" class="courses">
+      <div class="courses-container">
+        <h2 class="courses-title">
+          <i class="fas fa-play-circle"></i>
+          Recommended Courses
+        </h2>
+        <div id="courses-content" class="courses-content">
+          <p>Please log in to view personalized courses based on your stream.</p>
+        </div>
+      </div>
     </section>
 
     <section id="ai-tutor" class="ai-tutor">
       <div class="ai-chat-container">
-        <h2 class="chat-title">TutorAI Assistant 🤖</h2>
-        <div id="chat-messages" class="chat-messages"></div>
+        <h2 class="chat-title">
+          <i class="fas fa-comments"></i>
+          TutorAI Assistant
+        </h2>
+        <div id="chat-messages" class="chat-messages">
+          <div class="welcome-message">
+            <div class="message ai">
+              <div class="avatar">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="message-content">
+                <p>Hello! I'm your AI tutor. Ask me anything about learning, and I'll help you understand it better!</p>
+                <span class="timestamp">Just now</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="chat-input-container">
           <input type="text" id="chat-input" placeholder="Ask TutorAI anything..." />
-          <button id="send-button" class="send-button">Send</button>
+          <button id="send-button" class="send-button">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" class="profile">
+      <div class="profile-container">
+        <h2 class="profile-title">
+          <i class="fas fa-user"></i>
+          Your Profile
+        </h2>
+        <div id="profile-content" class="profile-content">
+          <p>Please log in to view your profile.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 TutorAI</p>
+    <div class="footer-content">
+      <p>&copy; 2025 TutorAI. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
   </footer>
 
   <script type="module" src="script.js"></script>
