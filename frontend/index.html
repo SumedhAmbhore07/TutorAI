@@ -51,15 +51,18 @@
           </div>
           <div class="input-group">
             <i class="fas fa-graduation-cap"></i>
-            <select id="register-stream" required>
-              <option value="">Select Your Stream</option>
-              <option value="computer-science">Computer Science</option>
-              <option value="mathematics">Mathematics</option>
-              <option value="physics">Physics</option>
-              <option value="chemistry">Chemistry</option>
-              <option value="biology">Biology</option>
-              <option value="english">English</option>
-              <option value="history">History</option>
+            <select id="register-course" required>
+              <option value="">Select Your Course</option>
+              <option value="dsa">Data Structures & Algorithms (DSA)</option>
+              <option value="web-dev">Web Development (HTML, CSS, JavaScript, React)</option>
+              <option value="python">Python Programming</option>
+              <option value="dbms">Database Management Systems (SQL + DBMS)</option>
+              <option value="oop">Object-Oriented Programming (Java / C++)</option>
+              <option value="ai-ml">Artificial Intelligence & Machine Learning</option>
+              <option value="data-science">Data Science & Analytics</option>
+              <option value="cybersecurity">Cybersecurity & Ethical Hacking</option>
+              <option value="os-networks">Operating Systems & Computer Networks</option>
+              <option value="mobile-dev">Mobile App Development (Flutter / React Native)</option>
             </select>
           </div>
           <button type="submit" class="auth-btn">Register</button>
@@ -72,34 +75,39 @@
     </div>
   </div>
 
-  <header>
+    <header class="header">
     <nav class="navbar">
-      <div class="logo">
-        <i class="fas fa-graduation-cap"></i>
-        TutorAI
-      </div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#courses">Courses</a></li>
-        <li><a href="#ai-tutor">AI Tutor</a></li>
-        <li><a href="#profile">Profile</a></li>
-        <li id="auth-buttons">
-          <div id="user-info" style="display:none;">
-            <img id="user-photo" src="" alt="User Photo">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <i class="fas fa-graduation-cap"></i>
+          <span>TutorAI</span>
+        </div>
+        
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#courses" class="nav-link">Courses</a></li>
+          <li><a href="#ai-tutor" class="nav-link">AI Tutor</a></li>
+          <li><a href="#profile" class="nav-link">Profile</a></li>
+        </ul>
+        
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <div class="user-info" id="user-info" style="display: none;">
+            <img src="" alt="Profile" id="user-photo">
             <span id="user-name"></span>
           </div>
-          <button id="login-btn" class="nav-btn">Login</button>
-          <button id="logout-btn" class="nav-btn" style="display:none;">Logout</button>
-        </li>
-      </ul>
-      <button id="theme-toggle" class="theme-toggle">
-        <i class="fas fa-sun"></i>
-      </button>
-      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-      </button>
+          <button class="login-btn" id="login-btn">Login</button>
+          <button class="logout-btn" id="logout-btn" style="display: none;">Logout</button>
+          <button class="nav-toggle" id="nav-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
+
 
   <main>
     <section id="home" class="hero">
@@ -117,38 +125,78 @@
       <div class="courses-container">
         <h2 class="courses-title">
           <i class="fas fa-play-circle"></i>
-          Recommended Courses
+          Course Videos
         </h2>
+        <div class="course-selector">
+          <select id="course-select">
+            <option value="">Select a Course</option>
+            <option value="dsa">Data Structures & Algorithms (DSA)</option>
+            <option value="web-dev">Web Development (HTML, CSS, JavaScript, React)</option>
+            <option value="python">Python Programming</option>
+            <option value="dbms">Database Management Systems (SQL + DBMS)</option>
+            <option value="oop">Object-Oriented Programming (Java / C++)</option>
+            <option value="ai-ml">Artificial Intelligence & Machine Learning</option>
+            <option value="data-science">Data Science & Analytics</option>
+            <option value="cybersecurity">Cybersecurity & Ethical Hacking</option>
+            <option value="os-networks">Operating Systems & Computer Networks</option>
+            <option value="mobile-dev">Mobile App Development (Flutter / React Native)</option>
+          </select>
+          <select id="topic-select" style="display:none;">
+            <option value="">Select a Topic</option>
+          </select>
+        </div>
+        <div id="course-slots" class="course-slots-container">
+          <!-- Slots will be rendered here by JavaScript -->
+        </div>
         <div id="courses-content" class="courses-content">
-          <p>Please log in to view personalized courses based on your stream.</p>
+          <p>Please select a course to view related videos.</p>
         </div>
       </div>
     </section>
 
     <section id="ai-tutor" class="ai-tutor">
       <div class="ai-chat-container">
-        <h2 class="chat-title">
-          <i class="fas fa-comments"></i>
-          TutorAI Assistant
-        </h2>
-        <div id="chat-messages" class="chat-messages">
-          <div class="welcome-message">
-            <div class="message ai">
-              <div class="avatar">
-                <i class="fas fa-robot"></i>
-              </div>
-              <div class="message-content">
-                <p>Hello! I'm your AI tutor. Ask me anything about learning, and I'll help you understand it better!</p>
-                <span class="timestamp">Just now</span>
+        <div id="chat-sidebar" class="chat-sidebar">
+          <div class="sidebar-header">
+            <button id="new-chat-btn" class="new-chat-btn">
+              <i class="fas fa-plus"></i> New Chat
+            </button>
+          </div>
+          <div id="chat-list" class="chat-list">
+            <!-- Chat sessions will be populated here -->
+          </div>
+        </div>
+        <div class="chat-main">
+          <h2 class="chat-title">
+            <i class="fas fa-comments"></i>
+            TutorAI Assistant
+          </h2>
+          <div id="chat-messages" class="chat-messages">
+            <div class="welcome-message">
+              <div class="message ai">
+                <div class="avatar">
+                  <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                  <p>Hello! I'm your AI tutor. Ask me anything about learning, and I'll help you understand it better!</p>
+                  <span class="timestamp">Just now</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="chat-input-container">
-          <input type="text" id="chat-input" placeholder="Ask TutorAI anything..." />
-          <button id="send-button" class="send-button">
-            <i class="fas fa-paper-plane"></i>
-          </button>
+          <div class="pdf-upload-container">
+            <input type="file" id="pdf-upload" accept=".pdf" style="display: none;" />
+            <button id="pdf-upload-btn" class="pdf-upload-btn" title="Upload PDF for context">
+              <i class="fas fa-file-pdf"></i> Upload PDF
+            </button>
+            <span id="pdf-status" class="pdf-status"></span>
+          </div>
+          <div class="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Ask TutorAI anything..." />
+            <button id="send-button" class="send-button">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -166,6 +214,7 @@
     </section>
   </main>
 
+  
   <footer>
     <div class="footer-content">
       <p>&copy; 2025 TutorAI. All rights reserved.</p>
@@ -176,6 +225,36 @@
       </div>
     </div>
   </footer>
+
+  <!-- Focus Mode Modal -->
+  <div id="focus-modal" class="modal">
+    <div class="modal-content focus-modal-content">
+      <span class="close" id="focus-close">&times;</span>
+      <h2>Focus Mode Timer</h2>
+      <div class="timer-display">
+        <div class="timer-circle">
+          <span id="timer-text">25:00</span>
+        </div>
+      </div>
+      <div class="timer-controls">
+        <button id="start-timer" class="timer-btn start-btn">Start</button>
+        <button id="pause-timer" class="timer-btn pause-btn" disabled>Pause</button>
+        <button id="reset-timer" class="timer-btn reset-btn">Reset</button>
+      </div>
+      <div class="timer-presets">
+        <button class="preset-btn" data-minutes="25">25 min</button>
+        <button class="preset-btn" data-minutes="15">15 min</button>
+        <button class="preset-btn" data-minutes="5">5 min</button>
+        <button class="preset-btn" data-minutes="10">10 min</button>
+      </div>
+      <p class="focus-tip">Stay focused and productive! When the timer ends, take a short break.</p>
+    </div>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-to-top" class="scroll-to-top-btn" title="Scroll to Top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
   <script type="module" src="script.js"></script>
 </body>
