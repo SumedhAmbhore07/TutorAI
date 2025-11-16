@@ -75,13 +75,13 @@
     </div>
   </div>
 
-    <header class="header">
+  <header class="header">
     <nav class="navbar">
       <div class="nav-container">
-        <div class="nav-brand">
+        <a href="#home" class="nav-brand">
           <i class="fas fa-graduation-cap"></i>
           <span>TutorAI</span>
-        </div>
+        </a>
         
         <ul class="nav-menu" id="nav-menu">
           <li><a href="#home" class="nav-link active">Home</a></li>
@@ -91,6 +91,9 @@
         </ul>
         
         <div class="nav-actions">
+          <button class="focus-mode-btn" id="focus-mode-btn" title="Focus Mode">
+            <i class="fas fa-clock"></i>
+          </button>
           <button class="theme-toggle" id="theme-toggle">
             <i class="fas fa-moon"></i>
           </button>
@@ -108,16 +111,15 @@
     </nav>
   </header>
 
-
   <main>
     <section id="home" class="hero">
       <div class="hero-content">
         <h1 class="animate-fade-in">Personalized Learning Powered by AI</h1>
-        <p class="animate-fade-in">Experience the future of education with intelligent tutoring tailored just for you.</p>
+        <p class="animate-fade-in">Experience the future of education with intelligent tutoring tailored to your needs.</p>
         <button class="cta-button animate-bounce">Get Started</button>
       </div>
       <div class="hero-image">
-        <i class="fas fa-robot"></i>
+        <i class="fas fa-robot hero-robot-icon"></i>
       </div>
     </section>
 
@@ -214,7 +216,6 @@
     </section>
   </main>
 
-  
   <footer>
     <div class="footer-content">
       <p>&copy; 2025 TutorAI. All rights reserved.</p>
@@ -230,26 +231,110 @@
   <div id="focus-modal" class="modal">
     <div class="modal-content focus-modal-content">
       <span class="close" id="focus-close">&times;</span>
-      <h2>Focus Mode Timer</h2>
-      <div class="timer-display">
-        <div class="timer-circle">
-          <span id="timer-text">25:00</span>
+      <div id="focus-timer-view">
+        <h2>Focus Mode Timer</h2>
+        <div class="timer-display">
+          <div class="timer-circle">
+            <span id="timer-text">25:00</span>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button id="start-timer" class="timer-btn start-btn">Start</button>
+          <button id="pause-timer" class="timer-btn pause-btn" disabled>Pause</button>
+          <button id="reset-timer" class="timer-btn reset-btn">Reset</button>
+        </div>
+        <div class="timer-presets">
+          <button class="preset-btn" data-minutes="25">25 min</button>
+          <button class="preset-btn" data-minutes="15">15 min</button>
+          <button class="preset-btn" data-minutes="5">5 min</button>
+          <button class="preset-btn" data-minutes="10">10 min</button>
+        </div>
+        <p class="focus-tip">Stay focused and productive! When the timer ends, take a break.</p>
+      </div>
+      <div id="focus-congrats-view" style="display: none;">
+        <h2>🎉 Congratulations!</h2>
+        <div class="congrats-content">
+          <div class="congrats-icon">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <p class="congrats-message">Great job! You've completed your focus session. Take a well-deserved break and relax.</p>
+          <div class="congrats-stats">
+            <p>You stayed focused for <strong id="completed-time">25 minutes</strong>!</p>
+          </div>
+          <button id="start-new-session" class="timer-btn start-btn">Start New Session</button>
         </div>
       </div>
-      <div class="timer-controls">
-        <button id="start-timer" class="timer-btn start-btn">Start</button>
-        <button id="pause-timer" class="timer-btn pause-btn" disabled>Pause</button>
-        <button id="reset-timer" class="timer-btn reset-btn">Reset</button>
-      </div>
-      <div class="timer-presets">
-        <button class="preset-btn" data-minutes="25">25 min</button>
-        <button class="preset-btn" data-minutes="15">15 min</button>
-        <button class="preset-btn" data-minutes="5">5 min</button>
-        <button class="preset-btn" data-minutes="10">10 min</button>
-      </div>
-      <p class="focus-tip">Stay focused and productive! When the timer ends, take a short break.</p>
     </div>
   </div>
+
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content profile-modal-content">
+      <span class="close" id="profile-close">&times;</span>
+      <h2>Your Profile</h2>
+      <div id="profile-view">
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <img id="profile-avatar-img" src="" alt="Profile Picture">
+            <button id="change-avatar" class="change-avatar-btn">
+              <i class="fas fa-camera"></i>
+            </button>
+          </div>
+          <div class="profile-details">
+            <div class="profile-field">
+              <label for="profile-name">Full Name</label>
+              <input type="text" id="profile-name" readonly>
+            </div>
+            <div class="profile-field">
+              <label for="profile-email">Email</label>
+              <input type="email" id="profile-email" readonly>
+            </div>
+            <div class="profile-field">
+              <label for="profile-phone">Phone Number</label>
+              <input type="tel" id="profile-phone" readonly>
+            </div>
+            <div class="profile-field">
+              <label for="profile-age">Age</label>
+              <input type="number" id="profile-age" readonly min="1" max="120">
+            </div>
+            <div class="profile-field">
+              <label for="profile-location">Location</label>
+              <input type="text" id="profile-location" readonly>
+            </div>
+            <div class="profile-field">
+              <label for="profile-course">Course</label>
+              <select id="profile-course" disabled>
+                <option value="">Select Your Course</option>
+                <option value="dsa">Data Structures & Algorithms (DSA)</option>
+                <option value="web-dev">Web Development (HTML, CSS, JavaScript, React)</option>
+                <option value="python">Python Programming</option>
+                <option value="dbms">Database Management Systems (SQL + DBMS)</option>
+                <option value="oop">Object-Oriented Programming (Java / C++)</option>
+                <option value="ai-ml">Artificial Intelligence & Machine Learning</option>
+                <option value="data-science">Data Science & Analytics</option>
+                <option value="cybersecurity">Cybersecurity & Ethical Hacking</option>
+                <option value="os-networks">Operating Systems & Computer Networks</option>
+                <option value="mobile-dev">Mobile App Development (Flutter / React Native)</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label>Member since</label>
+              <span id="profile-member-since"></span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button id="edit-profile-btn" class="profile-btn edit-btn">Edit Profile</button>
+          <button id="save-profile-btn" class="profile-btn save-btn" style="display: none;">Save Changes</button>
+          <button id="cancel-edit-btn" class="profile-btn cancel-btn" style="display: none;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
 
   <!-- Scroll to Top Button -->
   <button id="scroll-to-top" class="scroll-to-top-btn" title="Scroll to Top">
@@ -257,5 +342,3 @@
   </button>
 
   <script type="module" src="script.js"></script>
-</body>
-</html>

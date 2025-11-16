@@ -2,6 +2,8 @@
 import { loginWithGoogle, logoutUser, auth, getUserData, saveUserData } from './firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
 
+document.addEventListener('DOMContentLoaded', () => {
+
 // DOM Elements
 const authModal = document.getElementById('auth-modal');
 const loginBtn = document.getElementById('login-btn');
@@ -16,12 +18,30 @@ const navLinks = document.querySelector('.nav-links');
 // Focus Mode Elements
 const focusModal = document.getElementById('focus-modal');
 const focusModeBtn = document.getElementById('focus-mode-btn');
+const floatingFocusBtn = document.getElementById('floating-focus-btn');
 const focusClose = document.getElementById('focus-close');
 const timerText = document.getElementById('timer-text');
 const startTimerBtn = document.getElementById('start-timer');
 const pauseTimerBtn = document.getElementById('pause-timer');
 const resetTimerBtn = document.getElementById('reset-timer');
 const presetBtns = document.querySelectorAll('.preset-btn');
+const focusTimerView = document.getElementById('focus-timer-view');
+const focusCongratsView = document.getElementById('focus-congrats-view');
+const completedTime = document.getElementById('completed-time');
+const startNewSessionBtn = document.getElementById('start-new-session');
+
+// Profile Modal Elements
+const profileModal = document.getElementById('profile-modal');
+const profileClose = document.getElementById('profile-close');
+const profileAvatarImg = document.getElementById('profile-avatar-img');
+const profileName = document.getElementById('profile-name');
+const profileEmail = document.getElementById('profile-email');
+const profileCourse = document.getElementById('profile-course');
+const profileMemberSince = document.getElementById('profile-member-since');
+const editProfileBtn = document.getElementById('edit-profile-btn');
+const saveProfileBtn = document.getElementById('save-profile-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
+const changeAvatarBtn = document.getElementById('change-avatar');
 
 // Auth Modal Elements
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -592,7 +612,7 @@ auth.onAuthStateChanged(async (user) => {
     logoutBtn.style.display = 'inline-block';
 
     userName.textContent = user.displayName || user.email;
-    userPhoto.src = user.photoURL || 'https://via.placeholder.com/35x35?text=U';
+    userPhoto.src = user.photoURL || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6FUiv-It6tyoajJLen0-3K6B9OsvgOaRM0g&s";
 
     console.log('Loading user data for:', user.uid);
     // Load user data and update profile/courses
@@ -1123,17 +1143,17 @@ function updateTimerDisplay() {
 }
 
 function startTimer() {
-  if (!isRunning) {
+  if (!isRunning && timeLeft > 0) {
     isRunning = true;
     startTimerBtn.disabled = true;
     pauseTimerBtn.disabled = false;
+    resetTimerBtn.disabled = false;
     timerInterval = setInterval(() => {
       timeLeft--;
       updateTimerDisplay();
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        showNotification('Focus time is up! Take a break.', 'success');
-        resetTimer();
+        showCongratsView();
       }
     }, 1000);
   }
@@ -1155,19 +1175,42 @@ function resetTimer() {
   updateTimerDisplay();
   startTimerBtn.disabled = false;
   pauseTimerBtn.disabled = true;
+  resetTimerBtn.disabled = false;
+  // Hide congrats view and show timer view
+  focusCongratsView.style.display = 'none';
+  focusTimerView.style.display = 'block';
 }
 
 function setTimer(minutes) {
-  timeLeft = minutes * 60;
-  updateTimerDisplay();
-  if (isRunning) {
-    pauseTimer();
+  if (!isRunning) {
+    timeLeft = minutes * 60;
+    updateTimerDisplay();
   }
+}
+
+function showCongratsView() {
+  // Hide timer view and show congrats view
+  focusTimerView.style.display = 'none';
+  focusCongratsView.style.display = 'block';
+
+  // Calculate completed time
+  const initialTime = 25 * 60;
+  const completedMinutes = Math.floor((initialTime - timeLeft) / 60);
+  completedTime.textContent = `${completedMinutes} minutes`;
+
+  // Reset timer state
+  isRunning = false;
+  timeLeft = 25 * 60;
+  updateTimerDisplay();
+  startTimerBtn.disabled = false;
+  pauseTimerBtn.disabled = true;
+  resetTimerBtn.disabled = false;
 }
 
 // Focus Mode Modal Management
 function openFocusModal() {
   focusModal.style.display = 'block';
+  resetTimer(); // Reset timer when opening modal
 }
 
 function closeFocusModal() {
@@ -1175,8 +1218,10 @@ function closeFocusModal() {
   pauseTimer();
 }
 
-focusModeBtn.addEventListener('click', openFocusModal);
-focusClose.addEventListener('click', closeFocusModal);
+// Focus Mode Modal Management
+if (focusModeBtn) focusModeBtn.addEventListener('click', openFocusModal);
+if (floatingFocusBtn) floatingFocusBtn.addEventListener('click', openFocusModal);
+if (focusClose) focusClose.addEventListener('click', closeFocusModal);
 
 window.addEventListener('click', (e) => {
   if (e.target === focusModal) {
@@ -1199,6 +1244,16 @@ presetBtns.forEach(btn => {
 // Initialize timer display
 updateTimerDisplay();
 
+// Start New Session Button Event Listener
+startNewSessionBtn.addEventListener('click', () => {
+  // Hide congrats view and show timer view
+  focusCongratsView.style.display = 'none';
+  focusTimerView.style.display = 'block';
+  resetTimer();
+});
+
+
+
 // Scroll to Top Button Functionality
 const scrollToTopBtn = document.getElementById('scroll-to-top');
 
@@ -1217,6 +1272,17 @@ function scrollToTop() {
   });
 }
 
+// Floating Focus Button Functionality
+function toggleFloatingFocusButton() {
+  if (window.scrollY > 300) {
+    floatingFocusBtn.classList.add('show');
+  } else {
+    floatingFocusBtn.classList.remove('show');
+  }
+}
+
 // Event listeners for scroll to top button
 window.addEventListener('scroll', toggleScrollToTopButton);
 scrollToTopBtn.addEventListener('click', scrollToTop);
+
+});
