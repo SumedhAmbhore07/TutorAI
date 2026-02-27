@@ -1,36 +1,90 @@
-# TODO: Add Profile Page, Courses Page with YouTube Videos, and Stream Selection
+# TutorAI Frontend Migration: Django Templates → React
 
-## 1. Update Registration Form
-- [x] Add stream selection dropdown to register form in index.html
-- [x] Options: Computer Science, Mathematics, Physics, Chemistry, Biology, English, History
+## Overview
+Migrate the frontend from Django templates to a modern React SPA while keeping the Django backend completely unchanged. All existing functionality will be preserved.
 
-## 2. Update Firebase User Data Handling
-- [x] Modify firebase.js to save user stream on registration
-- [x] Add function to retrieve user data including stream
+## Phase 1: Project Setup ✅
+- [x] Initialize React project with Vite + TypeScript
+- [x] Install dependencies (react-router-dom, firebase)
+- [x] Configure TypeScript and build tools
+- [x] Set up project structure (components, pages, contexts, styles)
+- [x] Create Firebase configuration
 
-## 3. Update Script.js for Stream Handling
-- [x] Handle stream selection on register form submit
-- [x] Save stream to Firebase on user creation
+## Phase 2: Core Infrastructure ✅
+- [x] Create AuthContext for Firebase authentication
+- [x] Create ThemeContext for dark/light mode
+- [x] Create Layout component with navigation
+- [x] Set up React Router with routes
+- [x] Create AuthModal component for login/register
 
-## 4. Add Profile Section
-- [x] Add profile section in index.html with user info display
-- [x] Update script.js to populate profile with user data and stream
+## Phase 3: Page Components ✅
+- [x] Create Home page component
+- [x] Create Courses page component
+- [x] Create Tutor page component (AI chat)
+- [x] Create Profile page component
+- [x] Implement all original functionality in React
 
-## 5. Add Courses Section
-- [x] Add courses section in index.html with video container
-- [x] Update script.js to fetch YouTube videos based on user's stream
-- [x] Use YouTube Data API v3 (placeholder key: replace with real key)
+## Phase 4: Styling ✅
+- [x] Migrate CSS from Django static files
+- [x] Create global styles with CSS variables
+- [x] Create component-specific styles
+- [x] Ensure responsive design
+- [x] Preserve dark/light theme functionality
 
-## 6. Update Navigation and Auth State
-- [x] Ensure profile and courses sections are shown only when logged in
-- [x] Update smooth scrolling for new sections
+## Phase 5: Integration & Testing ⏳
+- [ ] Configure API proxy for Django backend
+- [ ] Test all API endpoints
+- [ ] Verify Firebase auth integration
+- [ ] Test file upload functionality
+- [ ] Ensure all routes work correctly
 
-## 7. Update Styles
-- [x] Add CSS for profile and courses sections in style.css
-- [x] Style video embeds and responsive design
+## Phase 6: Django Backend Configuration ⏳
+- [ ] Configure Django CORS settings
+- [ ] Update Django to serve React build files (production)
+- [ ] Test complete integration
 
-## 8. Testing
-- [x] Test registration with stream selection
-- [x] Verify profile displays correctly
-- [x] Check courses load relevant videos
-- [ ] Test on mobile devices
+## File Structure
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── Layout.tsx
+│   │   └── AuthModal.tsx
+│   ├── contexts/
+│   │   ├── AuthContext.tsx
+│   │   └── ThemeContext.tsx
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Courses.tsx
+│   │   ├── Tutor.tsx
+│   │   └── Profile.tsx
+│   ├── styles/
+│   │   ├── global.css
+│   │   └── components.css
+│   ├── firebase/
+│   │   └── config.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── index.html
+├── package.json
+└── tsconfig.json
+```
+
+## API Endpoints (Django Backend)
+- `POST /api/upload-pdf/` - Upload and process PDF files
+- `POST /api/ask-ai/` - Send questions to AI tutor
+
+## Features Preserved
+- ✅ Firebase Authentication (email/password + Google)
+- ✅ User profile management
+- ✅ AI chat with PDF context
+- ✅ Course browsing and selection
+- ✅ Dark/light theme toggle
+- ✅ Responsive design
+- ✅ All original UI/UX
+
+## Next Steps
+1. Configure Vite dev server proxy for API calls
+2. Test the complete application
+3. Update Django settings for CORS
+4. Build for production
