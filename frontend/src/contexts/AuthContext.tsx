@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -60,27 +60,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
-        // Fetch additional user data from Firestore
-        const userDocRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          setUserData(userDoc.data() as UserData);
-        } else {
-          // Create initial user document
-          const newUserData: UserData = {
+        try {
+          // Fetch additional user data from Firestore
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            setUserData(userDoc.data() as UserData);
+          } else {
+            // Create initial user document
+            const newUserData: UserData = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              createdAt: serverTimestamp()
+            };
+            await setDoc(userDocRef, newUserData);
+            setUserData(newUserData);
+          }
+        } catch (error) {
+          console.error("Error fetching or creating user document:", error);
+          // Still provide basic user data from Auth even if Firestore fails
+          setUserData({
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
-            photoURL: user.photoURL,
-            createdAt: serverTimestamp()
-          };
-          await setDoc(userDocRef, newUserData);
-          setUserData(newUserData);
+            photoURL: user.photoURL
+          });
+        } finally {
+          setLoading(false);
         }
       } else {
         setUserData(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return unsubscribe;
@@ -93,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (email: string, password: string, name: string) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(userCredential.user, { displayName: name });
-    
+
     // Create user document in Firestore
     await setDoc(doc(db, 'users', userCredential.user.uid), {
       uid: userCredential.user.uid,
@@ -115,14 +128,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const updateUserProfile = async (data: Partial<UserData>) => {
     if (!currentUser) return;
-    
+
     const userDocRef = doc(db, 'users', currentUser.uid);
     await setDoc(userDocRef, { ...userData, ...data }, { merge: true });
-    
+
     if (data.displayName && data.displayName !== currentUser.displayName) {
       await updateProfile(currentUser, { displayName: data.displayName });
     }
-    
+
     setUserData(prev => prev ? { ...prev, ...data } : null);
   };
 

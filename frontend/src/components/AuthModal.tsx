@@ -80,7 +80,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
           {error && <div className="error-message">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="auth-form">
+          <form onSubmit={handleSubmit} className="auth-form active">
             {activeTab === 'register' && (
               <div className="input-group">
                 <label>Full Name</label>

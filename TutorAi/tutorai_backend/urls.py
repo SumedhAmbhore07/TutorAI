@@ -37,10 +37,12 @@ urlpatterns = [
     
     # 4. Root URL - React app
     path('', serve_react_app, name='home'),
-    
+]
+
+# Serve media files BEFORE the catch-all
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
     # 5. Catch-all for React Router (must be LAST)
     re_path(r'^.*/$', serve_react_app),
 ]
-
-# Serve media files
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

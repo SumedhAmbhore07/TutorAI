@@ -1,0 +1,2 @@
+src/pages/CommunityPage.tsx(124,31): error TS6133: 'videoId' is declared but its value is never read.
+src/pages/CommunityPage.tsx(124,40): error TS6133: 'type' is declared but its value is never read.

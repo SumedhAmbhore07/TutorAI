@@ -34,7 +34,7 @@ const Layout = () => {
             <span>TutorAI</span>
           </Link>
 
-          <button 
+          <button
             className="mobile-menu-btn"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -55,7 +55,18 @@ const Layout = () => {
               <i className="fas fa-robot"></i>
               <span>AI Tutor</span>
             </Link>
-            
+            <Link to="/quizzes" className={`nav-link ${isActive('/quizzes') ? 'active' : ''}`}>
+              <i className="fas fa-question-circle"></i>
+              <span>Quizzes</span>
+            </Link>
+
+            {isActive('/community') && (
+              <Link to="/community" className="nav-link active">
+                <i className="fas fa-users-cog"></i>
+                <span>Community</span>
+              </Link>
+            )}
+
             {currentUser && (
               <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>
                 <i className="fas fa-user"></i>
@@ -72,9 +83,9 @@ const Layout = () => {
 
             {currentUser ? (
               <div className="user-info">
-                <img 
-                  src={userData?.photoURL || 'https://via.placeholder.com/40'} 
-                  alt="Profile" 
+                <img
+                  src={userData?.photoURL || 'https://via.placeholder.com/40'}
+                  alt="Profile"
                   className="user-avatar"
                 />
                 <span className="user-name">{userData?.displayName || userData?.email}</span>
